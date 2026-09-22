@@ -40,16 +40,16 @@ function resolveDateWindow(cliArgs) {
  */
 function getBrands() {
   const brands = [
-    {
-      key: "CORRO",
-      storeDomain: normalizeStoreDomain(process.env.SHOPIFY_CORRO_STORE),
-      accessToken: process.env.SHOPIFY_CORRO_TOKEN,
-    },
-    {
-      key: "CAVALI",
-      storeDomain: normalizeStoreDomain(process.env.SHOPIFY_CAVALI_STORE),
-      accessToken: process.env.SHOPIFY_CAVALI_TOKEN,
-    },
+   {
+ key: "CORRO",
+ storeDomain: "equestrian-labs.myshopify.com",
+ accessToken: process.env.SHOPIFY_CORRO_TOKEN,
+},
+   {
+ key: "CAVALI",
+ storeDomain: "cavali-club.myshopify.com",
+ accessToken: process.env.SHOPIFY_CAVALI_TOKEN,
+},
   ];
 
   return brands.filter((b) => b.storeDomain && b.accessToken);
