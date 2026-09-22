@@ -145,9 +145,11 @@ function parseNextLink(linkHeader) {
   for (const part of parts) {
     const match = part.match(/<([^>]+)>;\s*rel="next"/);
     if (match) {
-      // Return path + query only — axios baseURL supplies the host.
+      // Shopify's Link header returns the full path including /admin/api/{version}/
+      // but axios baseURL already contains that prefix — strip it to avoid doubling.
       const full = new URL(match[1]);
-      return full.pathname + full.search;
+      const stripped = full.pathname.replace(/^\/admin\/api\/[^\/]+/, "");
+      return stripped + full.search;
     }
   }
   return null;
