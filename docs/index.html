@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Corro — Payment Methods</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="shell">
+
+  <aside class="sidebar">
+    <div class="brand-block">
+      <img src="assets/corro_logo.png" alt="Corro" class="brand-logo" />
+      <div class="brand-meta">
+        <div class="brand-org">Equestrian Labs, Inc.</div>
+        <div class="brand-sub">Analytics Suite</div>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <div class="nav-section-label">Performance</div>
+      <a class="nav-item" href="#">Dashboard</a>
+      <a class="nav-item nav-item--active" href="#">Payment Methods</a>
+
+      <div class="nav-section-label">Brands</div>
+      <a class="nav-item nav-item--dot" data-brand-link="CORRO">
+        <span class="dot dot--corro"></span>Corro
+      </a>
+      <a class="nav-item nav-item--dot" data-brand-link="CAVALI">
+        <span class="dot dot--cavali"></span>Cavali
+      </a>
+
+      <div class="nav-section-label">Analytics Suite</div>
+      <a class="nav-item" href="#">Pareto Analysis <span class="nav-tag">GP</span></a>
+      <a class="nav-item" href="#">Frequency <span class="nav-tag">RET</span></a>
+      <a class="nav-item" href="#">Concierge Comm. <span class="nav-tag">$</span></a>
+      <a class="nav-item" href="#">Upsell Smile <span class="nav-tag">UP</span></a>
+
+      <div class="nav-section-label">Operations</div>
+      <a class="nav-item" href="#">SKU Savvy <span class="nav-tag">OPS</span></a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <span class="sync-dot"></span>
+      Auto-sync daily 8AM
+      <div class="sync-date" id="generatedAtLabel">—</div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <h1 id="pageTitle">Corro — Payment Methods</h1>
+        <p class="subtitle">Shopify Orders API + Transactions API · payment method accuracy · live data</p>
+      </div>
+      <div class="topbar-actions">
+        <span class="pill pill--live">● Live</span>
+        <button class="btn" id="refreshBtn">↻ Refresh</button>
+      </div>
+    </header>
+
+    <div class="controls-row">
+      <div class="brand-toggle" id="brandToggle">
+        <button class="toggle-btn toggle-btn--active" data-brand="CORRO"><span class="dot dot--corro"></span>Corro</button>
+        <button class="toggle-btn" data-brand="CAVALI"><span class="dot dot--cavali"></span>Cavali</button>
+        <button class="toggle-btn" data-brand="ALL">All brands</button>
+      </div>
+      <div class="window-label" id="windowLabel">—</div>
+    </div>
+
+    <section class="section">
+      <div class="section-heading"><span class="section-num">01</span>Executive Summary</div>
+      <div class="kpi-grid" id="kpiGrid"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading"><span class="section-num">02</span>Payment Method Summary</div>
+      <div class="card table-card">
+        <table class="data-table" id="summaryTable">
+          <thead>
+            <tr>
+              <th>Payment Method</th>
+              <th>Transactions</th>
+              <th>Transaction %</th>
+              <th>Revenue</th>
+              <th>Revenue %</th>
+              <th>Avg Order Value</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading"><span class="section-num">03</span>Top 3 Payment Methods</div>
+      <div class="top3-grid" id="top3Grid"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading"><span class="section-num">04</span>Payment Providers — Available vs. Used</div>
+      <div class="card table-card">
+        <table class="data-table" id="providersTable">
+          <thead>
+            <tr>
+              <th>Provider</th>
+              <th>Available in Shopify</th>
+              <th>Used</th>
+              <th>Transactions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer class="footer-note">
+      Source: Shopify Orders API + Transactions API · one row per transaction to avoid gateway grouping ·
+      report file: <code>Shopify_Payment_Methods_Analysis.xlsx</code>
+    </footer>
+  </main>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
