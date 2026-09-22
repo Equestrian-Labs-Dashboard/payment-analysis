@@ -6,6 +6,7 @@
 
   let reportData = null;
   let currentBrand = "CORRO"; // CORRO | CAVALI | ALL
+  let currentPeriod = "closed"; // Last Closed Quarter default
 
   const fmtCurrency = (n) =>
     "$" + Number(n || 0).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 1 }) ;
@@ -34,8 +35,9 @@
     const scope = scopeFor(currentBrand);
     const title = currentBrand === "ALL" ? "All Brands" : currentBrand[0] + currentBrand.slice(1).toLowerCase();
     document.getElementById("pageTitle").textContent = `${title} — Payment Methods`;
+    const periodLabel = currentPeriod === "current" ? "Current Quarter" : currentPeriod === "custom" ? "Custom Range" : "Last Closed Quarter";
     document.getElementById("windowLabel").textContent =
-      `${reportData.windowLabel} · Orders API + Transactions API`;
+      `${periodLabel} · ${reportData.windowLabel} · Orders API + Transactions API`;
     document.getElementById("generatedAtLabel").textContent = new Date(reportData.generatedAt)
       .toISOString()
       .slice(0, 10);
