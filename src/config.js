@@ -28,21 +28,35 @@ function resolveDateWindow(cliArgs) {
  * Per-brand Shopify store config. Add more brands here if the business expands
  * beyond CORRO / CAVALI — everything downstream iterates over this list.
  */
+function cleanSecretValue(value) {
+  return String(value || "")
+    .replace(/[\"\'\n\r\t]/g, "")
+    .replace(/^https?:\/\//, "")
+    .replace(/\/$/, "")
+    .trim();
+}
+
 function getBrands() {
   const brands = [
     {
       key: "CORRO",
-      storeDomain: process.env.SHOPIFY_CORRO_STORE,
-      accessToken: process.env.SHOPIFY_CORRO_TOKEN,
+      storeDomain: cleanSecretValue(process.env.SHOPIFY_CORRO_STORE),
+      accessToken: cleanSecretValue(process.env.SHOPIFY_CORRO_TOKEN),
     },
     {
       key: "CAVALI",
-      storeDomain: process.env.SHOPIFY_CAVALI_STORE,
-      accessToken: process.env.SHOPIFY_CAVALI_TOKEN,
+      storeDomain: cleanSecretValue(process.env.SHOPIFY_CAVALI_STORE),
+      accessToken: cleanSecretValue(process.env.SHOPIFY_CAVALI_TOKEN),
     },
   ];
 
-  return brands.filter((b) => b.storeDomain && b.accessToken);
+  return brands.filter((b) => {
+    if (!b.storeDomain && !b.accessToken) return false;
+    if (!b.storeDomain || !b.accessToken) {
+      throw new Error(`[${b.key}] Missing Shopify secret. Check GitHub Actions secrets.`);
+    }
+    return true;
+  });
 }
 
 function getAvailableProviders() {

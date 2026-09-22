@@ -42,6 +42,9 @@ async function run() {
 
   console.log(`Shopify Payment Methods Analysis — window: ${windowLabel}`);
   console.log(`Brands: ${brands.map((b) => b.key).join(", ")}`);
+  brands.forEach((b) => {
+    console.log(`[${b.key}] Secret store loaded: ${b.storeDomain || "MISSING"}`);
+  });
 
   const brandData = {};
   const allTransactionRecords = [];
