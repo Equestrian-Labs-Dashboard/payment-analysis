@@ -3,8 +3,10 @@ name: Generate Payment Methods Report
 on:
   workflow_dispatch: {}
   schedule:
-    # Every Monday 08:00 UTC — adjust to taste.
     - cron: "0 8 * * 1"
+
+permissions:
+  contents: write
 
 jobs:
   generate:
@@ -15,28 +17,29 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
+          cache: npm
 
-      - run: npm install
+      - run: npm ci
 
       - name: Generate report
         env:
-          SHOPIFY_API_VERSION: ${{ vars.SHOPIFY_API_VERSION }}
+          SHOPIFY_API_VERSION: ${{ vars.SHOPIFY_API_VERSION || '2024-10' }}
           SHOPIFY_CORRO_STORE: ${{ secrets.SHOPIFY_CORRO_STORE }}
           SHOPIFY_CORRO_TOKEN: ${{ secrets.SHOPIFY_CORRO_TOKEN }}
           SHOPIFY_CAVALI_STORE: ${{ secrets.SHOPIFY_CAVALI_STORE }}
           SHOPIFY_CAVALI_TOKEN: ${{ secrets.SHOPIFY_CAVALI_TOKEN }}
         run: npm run report
 
-      - name: Upload workbook as artifact
+      - name: Upload workbook
         uses: actions/upload-artifact@v4
         with:
           name: Shopify_Payment_Methods_Analysis
           path: output/Shopify_Payment_Methods_Analysis.xlsx
 
-      - name: Commit refreshed dashboard data
+      - name: Commit dashboard JSON
         run: |
           git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add dashboard/data/report-summary.json
-          git diff --quiet --cached || git commit -m "chore: refresh payment methods report data"
+          git diff --cached --quiet || git commit -m "chore: refresh payment dashboard data"
           git push
