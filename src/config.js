@@ -3,6 +3,16 @@
 require("dotenv").config();
 const { DateTime } = require("luxon");
 
+function normalizeStoreDomain(value) {
+  return String(value || "")
+    .trim()
+    .replace(/^["']|["']$/g, "")
+    .replace(/^https?:\/\//, "")
+    .replace(/\/$/, "")
+    .replace(/\\n|\\r|\\t/g, "")
+    .toLowerCase();
+}
+
 /**
  * Resolves the reporting date window.
  * Defaults to "last 3 full months" (the Q3-style window requested by the business),
@@ -32,12 +42,12 @@ function getBrands() {
   const brands = [
     {
       key: "CORRO",
-      storeDomain: process.env.SHOPIFY_CORRO_STORE,
+      storeDomain: normalizeStoreDomain(process.env.SHOPIFY_CORRO_STORE),
       accessToken: process.env.SHOPIFY_CORRO_TOKEN,
     },
     {
       key: "CAVALI",
-      storeDomain: process.env.SHOPIFY_CAVALI_STORE,
+      storeDomain: normalizeStoreDomain(process.env.SHOPIFY_CAVALI_STORE),
       accessToken: process.env.SHOPIFY_CAVALI_TOKEN,
     },
   ];
