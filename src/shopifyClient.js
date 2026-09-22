@@ -28,9 +28,11 @@ class ShopifyClient {
   constructor({ storeDomain, accessToken, apiVersion, brandKey }) {
     this.brandKey = brandKey;
     const cleanStore = String(storeDomain || "")
+      .replace(/[\"\'\\n\\r\\t]/g, "")
       .replace(/^https?:\/\//, "")
       .replace(/\/$/, "")
-      .trim();
+      .trim()
+      .toLowerCase();
 
     if (!cleanStore || !accessToken) {
       throw new Error(`[${brandKey}] Missing Shopify store or access token`);
@@ -75,7 +77,9 @@ class ShopifyClient {
         await sleep(attempt * 1000);
         return this._requestWithRetry(config, attempt + 1);
       }
-      throw enrichError(err, this.brandKey);
+      const endpoint = `${this.baseUrl}${config.url || ""}`;
+      err.message = `[${this.brandKey}] Request failed ${status || ""} ${endpoint}: ${JSON.stringify(err.response && err.response.data || err.message)}`;
+      throw err;
     }
   }
 
