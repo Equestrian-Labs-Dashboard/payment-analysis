@@ -40,7 +40,7 @@ function getBrands() {
   const brands = [
     {
       key: "CORRO",
-      storeDomain: "equestrian-labs.myshopify.com",
+      storeDomain: cleanSecretValue(process.env.SHOPIFY_CORRO_STORE) || "equestrian-labs.myshopify.com",
       accessToken: cleanSecretValue(process.env.SHOPIFY_CORRO_TOKEN),
     },
     {
