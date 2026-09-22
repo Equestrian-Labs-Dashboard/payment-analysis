@@ -28,6 +28,13 @@ function resolveDateWindow(cliArgs) {
  * Per-brand Shopify store config. Add more brands here if the business expands
  * beyond CORRO / CAVALI — everything downstream iterates over this list.
  */
+function normalizeStore(value) {
+  return String(value || "")
+    .replace(/^https?:\/\//, "")
+    .replace(/\/$/, "")
+    .trim();
+}
+
 function getBrands() {
   const brands = [
     {
