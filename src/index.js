@@ -12,6 +12,7 @@ const {
   computePaymentMethodSummary,
   computeTopPaymentMethods,
   computeProviderComparison,
+  computeMonthlyClosedMonths,
 } = require("./dataProcessor");
 const { generateWorkbook } = require("./reportGenerator");
 
@@ -85,6 +86,7 @@ async function run() {
 
   const combinedExecutiveSummary = computeExecutiveSummary(allOrderSummaries, allTransactionRecords);
   const combinedPaymentMethodSummary = computePaymentMethodSummary(allTransactionRecords);
+  const monthly = computeMonthlyClosedMonths(allOrderSummaries);
 
   console.log("\nGenerating workbook...");
   const workbook = await generateWorkbook({
@@ -95,6 +97,7 @@ async function run() {
     topByBrand,
     providersByBrand,
     brandData,
+    monthly,
   });
 
   const outputDir = path.join(__dirname, "..", "output");
@@ -111,6 +114,7 @@ async function run() {
       {
         generatedAt: DateTime.utc().toISO(),
         windowLabel,
+        monthly,
         combined: {
           executiveSummary: combinedExecutiveSummary,
           paymentMethodSummary: combinedPaymentMethodSummary,

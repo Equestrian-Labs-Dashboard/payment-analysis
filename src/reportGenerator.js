@@ -69,6 +69,18 @@ function addExecutiveSummarySheet(workbook, { combined, byBrand, windowLabel }) 
   autoFitColumns(sheet);
 }
 
+
+function addMonthlyClosedMonthsSheet(workbook, monthly) {
+  const sheet = workbook.addWorksheet("Monthly Closed Months");
+  sheet.addRow(["Month", "Period", "Orders", "Revenue", "Transactions"]);
+  styleHeaderRow(sheet.getRow(1));
+  (monthly || []).forEach((r) => {
+    const row = sheet.addRow([r.month, r.period, r.orders, r.revenue, r.transactions]);
+    row.getCell(4).numFmt = CURRENCY_FMT;
+  });
+  autoFitColumns(sheet);
+}
+
 function addPaymentMethodSummarySheet(workbook, sheetName, summaryRows) {
   const sheet = workbook.addWorksheet(sheetName);
   const header = sheet.addRow([
@@ -259,6 +271,7 @@ async function generateWorkbook({
   topByBrand,
   providersByBrand,
   brandData, // { CORRO: {orderSummaries, executiveSummary, paymentMethodSummary}, CAVALI: {...} }
+  monthly,
 }) {
   const workbook = new ExcelJS.Workbook();
   workbook.creator = "Equestrian Labs, Inc. — Analytics Suite";
@@ -273,6 +286,7 @@ async function generateWorkbook({
     byBrand: byBrandExecSummary,
     windowLabel,
   });
+  addMonthlyClosedMonthsSheet(workbook, monthly);
   addPaymentMethodSummarySheet(workbook, "Payment Method Summary", combinedPaymentMethodSummary);
   addTransactionDetailSheet(workbook, combinedTransactionRecords);
   addPaymentProvidersSheet(workbook, providersByBrand);

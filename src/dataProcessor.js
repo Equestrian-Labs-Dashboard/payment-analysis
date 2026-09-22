@@ -194,6 +194,34 @@ function computeProviderComparison(availableProviders, paymentMethodSummary) {
   return rows;
 }
 
+
+/**
+ * Returns the last three fully closed calendar months included in the report.
+ * Uses order date (not transaction date) to keep monthly revenue/order reporting
+ * consistent with Shopify order reporting.
+ */
+function computeMonthlyClosedMonths(orderSummaries, referenceDate = new Date()) {
+  const ref = new Date(referenceDate);
+  const months = [];
+
+  for (let i = 3; i >= 1; i--) {
+    const d = new Date(ref.getUTCFullYear(), ref.getUTCMonth() - i, 1);
+    const year = d.getUTCFullYear();
+    const month = d.getUTCMonth();
+    const key = `${year}-${String(month + 1).padStart(2, "0")}`;
+
+    const rows = orderSummaries.filter((o) => (o.orderDate || "").slice(0, 7) === key);
+    months.push({
+      month: d.toLocaleString("en-US", { month: "long", year: "numeric" }),
+      period: key,
+      orders: rows.length,
+      revenue: round2(rows.reduce((s, o) => s + o.netRevenue, 0)),
+      transactions: 0
+    });
+  }
+  return months;
+}
+
 // ---- helpers --------------------------------------------------------------
 
 function toNumber(value) {
@@ -234,4 +262,5 @@ module.exports = {
   computePaymentMethodSummary,
   computeTopPaymentMethods,
   computeProviderComparison,
+  computeMonthlyClosedMonths,
 };

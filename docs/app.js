@@ -7,7 +7,7 @@
 
   let reportData = null;
   let currentBrand = "CORRO"; // CORRO | CAVALI | ALL
-  let currentPeriod = "closed"; // Last Closed Quarter default
+  let currentPeriod = "closed"; // Last 3 Closed Months default
 
   const fmtCurrency = (n) =>
     "$" + Number(n || 0).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 1 }) ;
@@ -36,9 +36,9 @@
     const scope = scopeFor(currentBrand);
     const title = currentBrand === "ALL" ? "All Brands" : currentBrand[0] + currentBrand.slice(1).toLowerCase();
     document.getElementById("pageTitle").textContent = `${title} — Payment Methods`;
-    const periodLabel = currentPeriod === "current" ? "Current Quarter" : currentPeriod === "custom" ? "Custom Range" : "Last Closed Month";
+    const periodLabel = currentPeriod === "current" ? "Current Quarter" : currentPeriod === "custom" ? "Custom Range" : "Last 3 Closed Months";
     document.getElementById("windowLabel").textContent =
-      `${periodLabel} · ${reportData.windowLabel || "Up to latest closed month"} · Orders API + Transactions API`;
+      `${periodLabel} · ${reportData.windowLabel || "Last 3 closed months"} · Orders API + Transactions API`;
 
     renderMonthly();
     document.getElementById("generatedAtLabel").textContent = new Date(reportData.generatedAt)
