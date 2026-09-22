@@ -28,7 +28,7 @@ class ShopifyClient {
   constructor({ storeDomain, accessToken, apiVersion, brandKey }) {
     this.brandKey = brandKey;
     const cleanStore = String(storeDomain || "")
-      .replace(/[\"\'\\n\\r\\t]/g, "")
+      .replace(/["'\n\r\t]/g, "")
       .replace(/^https?:\/\//, "")
       .replace(/\/$/, "")
       .trim()
