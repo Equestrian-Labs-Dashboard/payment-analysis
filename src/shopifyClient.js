@@ -31,7 +31,9 @@ class ShopifyClient {
       .replace(/^https?:\/\//, "")
       .replace(/\/$/, "")
       .trim();
-    const version = apiVersion || "2025-10";\n    this.baseUrl = `https://${cleanStore}/admin/api/${version}`;\n    console.log(`[${brandKey}] Shopify endpoint: ${this.baseUrl}`);
+    const version = apiVersion || "2025-10";
+    this.baseUrl = `https://${cleanStore}/admin/api/${version}`;
+    console.log(`[${brandKey}] Shopify endpoint: ${this.baseUrl}`);
     this.http = axios.create({
       baseURL: this.baseUrl,
       headers: {
