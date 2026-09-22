@@ -31,8 +31,9 @@ class ShopifyClient {
       .replace(/^https?:\/\//, "")
       .replace(/\/$/, "")
       .trim();
-    const version = apiVersion || "2025-10";
-    this.baseUrl = `https://${cleanStore}/admin/api/${version}`;
+    this.cleanStore = cleanStore;
+    this.apiVersions = [apiVersion || "2025-10", "2024-10"];
+    this.baseUrl = `https://${cleanStore}/admin/api/${this.apiVersions[0]}`;
     console.log(`[${brandKey}] Shopify endpoint: ${this.baseUrl}`);
     this.http = axios.create({
       baseURL: this.baseUrl,
@@ -49,6 +50,15 @@ class ShopifyClient {
       return await this.http.request(config);
     } catch (err) {
       const status = err.response && err.response.status;
+      if (status === 404 && !config.__versionRetried) {
+        for (const version of this.apiVersions.slice(1)) {
+          const retryConfig = { ...config, __versionRetried: true };
+          this.http.defaults.baseURL = `https://${this.cleanStore}/admin/api/${version}`;
+          this.baseUrl = this.http.defaults.baseURL;
+          console.log(`[${this.brandKey}] Retrying Shopify API with version ${version}: ${this.baseUrl}`);
+          return this._requestWithRetry(retryConfig, attempt + 1);
+        }
+      }
       if (status === 429 && attempt <= 5) {
         const retryAfterSec = Number(err.response.headers["retry-after"]) || 2;
         await sleep(retryAfterSec * 1000);
