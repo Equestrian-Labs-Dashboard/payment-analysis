@@ -1,7 +1,11 @@
 (function () {
   "use strict";
 
-  const DATA_URL = "data/report-summary.json";
+  const DATA_FILES = {
+    closed: "data/report-summary.json",
+    current: "data/report-summary-current.json",
+    custom: "data/report-summary-custom.json"
+  };
   const FALLBACK_URL = "../sample-data/report-summary.sample.json";
 
   let reportData = null;
@@ -15,10 +19,10 @@
   const fmtInt = (n) => Number(n || 0).toLocaleString("en-US");
   const fmtPct = (n) => Number(n || 0).toFixed(1) + "%";
 
-  async function loadData() {
+  async function loadData(period = "closed") {
     try {
-      const res = await fetch(DATA_URL, { cache: "no-store" });
-      if (!res.ok) throw new Error("primary data not found");
+      const res = await fetch(DATA_FILES[period] || DATA_FILES.closed, { cache: "no-store" });
+      if (!res.ok) throw new Error("period data not found");
       return await res.json();
     } catch (e) {
       const res = await fetch(FALLBACK_URL, { cache: "no-store" });
@@ -165,14 +169,20 @@
       });
     });
 
+    document.getElementById("periodSelect").addEventListener("change", async (e) => {
+      currentPeriod = e.target.value;
+      reportData = await loadData(currentPeriod);
+      render();
+    });
+
     document.getElementById("refreshBtn").addEventListener("click", async () => {
-      reportData = await loadData();
+      reportData = await loadData(currentPeriod);
       render();
     });
   }
 
   (async function init() {
-    reportData = await loadData();
+    reportData = await loadData(currentPeriod);
     wireControls();
     render();
   })();
