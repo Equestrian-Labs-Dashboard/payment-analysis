@@ -56,7 +56,7 @@ function getAvailableProviders() {
 }
 
 module.exports = {
-  apiVersion: process.env.SHOPIFY_API_VERSION || "2024-10",
+  apiVersion: process.env.SHOPIFY_API_VERSION || "2025-10",
   resolveDateWindow,
   getBrands,
   getAvailableProviders,

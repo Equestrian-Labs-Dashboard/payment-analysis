@@ -101,7 +101,7 @@ async function run() {
   await workbook.xlsx.writeFile(xlsxPath);
   console.log(`Workbook written to ${xlsxPath}`);
 
-  const dashboardJsonPath = path.join(__dirname, "..", "dashboard", "data", "report-summary.json");
+  const dashboardJsonPath = path.join(__dirname, "..", "docs", "data", "report-summary.json");
   fs.mkdirSync(path.dirname(dashboardJsonPath), { recursive: true });
   fs.writeFileSync(
     dashboardJsonPath,

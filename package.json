@@ -1,12 +1,12 @@
 {
   "name": "shopify-payment-methods-analysis",
   "version": "1.0.0",
-  "description": "Shopify Payment Methods Analysis for CORRO and CAVALI — Orders API + Transactions API, Excel report and web dashboard.",
+  "description": "Shopify Payment Methods Analysis for CORRO and CAVALI \u2014 Orders API + Transactions API, Excel report and web dashboard.",
   "main": "src/index.js",
   "type": "commonjs",
   "scripts": {
     "report": "node src/index.js",
-    "dashboard": "node -e \"require('http').createServer(require('serve-handler')).listen(4173, () => console.log('Dashboard: http://localhost:4173'))\" --dir dashboard",
+    "dashboard": "node -e \"require('http').createServer(require('serve-handler')).listen(4173, () => console.log('Dashboard: http://localhost:4173'))\" --dir docs",
     "test": "node --test test/"
   },
   "dependencies": {

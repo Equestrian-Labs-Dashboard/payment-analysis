@@ -27,7 +27,11 @@ const ORDER_FIELDS = [
 class ShopifyClient {
   constructor({ storeDomain, accessToken, apiVersion, brandKey }) {
     this.brandKey = brandKey;
-    this.baseUrl = `https://${storeDomain}/admin/api/${apiVersion}`;
+    const cleanStore = String(storeDomain || "")
+      .replace(/^https?:\/\//, "")
+      .replace(/\/$/, "")
+      .trim();
+    this.baseUrl = `https://${cleanStore}/admin/api/${apiVersion}`;
     this.http = axios.create({
       baseURL: this.baseUrl,
       headers: {
