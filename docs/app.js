@@ -11,6 +11,18 @@
   let reportData = null;
   let currentBrand = "CORRO"; // CORRO | CAVALI | ALL
   let currentPeriod = "closed"; // Last Closed Quarter default
+  // Reporting period details shown to users
+  function updatePeriodInfo(data) {
+    const el = document.querySelector(".period-info, #periodInfo");
+    if (!el) return;
+
+    const start = data.period_start || data.start_date || "";
+    const end = data.period_end || data.end_date || "";
+
+    el.textContent = `${PERIOD_LABELS[currentPeriod] || "Reporting Period"} · ${start} to ${end}`;
+  }
+
+
 
   const fmtCurrency = (n) =>
     "$" + Number(n || 0).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 1 }) ;
