@@ -40,7 +40,7 @@ function getBrands() {
   const brands = [
     {
       key: "CORRO",
-      storeDomain: "equestrian-labs.myshopify.com",
+      storeDomain: cleanSecretValue(process.env.SHOPIFY_CORRO_STORE),
       accessToken: cleanSecretValue(process.env.SHOPIFY_CORRO_TOKEN),
     },
     {
@@ -70,7 +70,7 @@ function getAvailableProviders() {
 }
 
 module.exports = {
-  apiVersion: process.env.SHOPIFY_API_VERSION || "2025-10",
+  apiVersion: process.env.SHOPIFY_API_VERSION || "2025-07",
   resolveDateWindow,
   getBrands,
   getAvailableProviders,

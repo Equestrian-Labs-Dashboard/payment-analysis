@@ -42,8 +42,8 @@ class ShopifyClient {
       throw new Error(`[${brandKey}] Invalid Shopify store domain: ${cleanStore}. Expected format: your-store.myshopify.com`);
     }
 
-    this.baseUrl = `https://${cleanStore}/admin/api/${apiVersion || "2025-10"}`;
-    this.shopUrl = `https://${cleanStore}/admin/api/${apiVersion || "2025-10"}/shop.json`;
+    this.baseUrl = `https://${cleanStore}/admin/api/${apiVersion || "2025-07"}`;
+    this.shopUrl = `https://${cleanStore}/admin/api/${apiVersion || "2025-07"}/shop.json`;
     console.log(`[${brandKey}] Shopify store: ${cleanStore}`);
     console.log(`[${brandKey}] Shopify endpoint: ${this.baseUrl}`);
 
