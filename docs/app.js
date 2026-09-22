@@ -3,28 +3,22 @@
 
   const BASE_PATH = "./";
   const DATA_URL = `${BASE_PATH}data/report-summary.json`;
-  const FALLBACK_URL = `${BASE_PATH}data/report-summary.json`;
 
   let reportData = null;
   let currentBrand = "CORRO"; // CORRO | CAVALI | ALL
-  let currentPeriod = "closed"; // Last 3 Closed Months default
+  let currentPeriod = "closed"; // closed | current | custom
 
   const fmtCurrency = (n) =>
-    "$" + Number(n || 0).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 1 }) ;
+    "$" + Number(n || 0).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 1 });
   const fmtMoneyFull = (n) =>
     "$" + Number(n || 0).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const fmtInt = (n) => Number(n || 0).toLocaleString("en-US");
   const fmtPct = (n) => Number(n || 0).toFixed(1) + "%";
 
   async function loadData() {
-    try {
-      const res = await fetch(DATA_URL, { cache: "no-store" });
-      if (!res.ok) throw new Error("primary data not found");
-      return await res.json();
-    } catch (e) {
-      const res = await fetch(FALLBACK_URL, { cache: "no-store" });
-      return await res.json();
-    }
+    const res = await fetch(DATA_URL, { cache: "no-store" });
+    if (!res.ok) throw new Error("data not found");
+    return await res.json();
   }
 
   function scopeFor(brand) {
@@ -32,15 +26,50 @@
     return reportData.brands[brand];
   }
 
+  // Returns monthly rows for the selected brand
+  function monthlyFor(brand) {
+    if (brand === "ALL") {
+      // Merge all brands monthly data
+      const merged = new Map();
+      for (const b of Object.keys(reportData.brands)) {
+        const bMonthly = reportData.brands[b].monthly || [];
+        for (const row of bMonthly) {
+          if (!merged.has(row.period)) {
+            merged.set(row.period, { month: row.month, period: row.period, orders: 0, revenue: 0, transactions: 0 });
+          }
+          const m = merged.get(row.period);
+          m.orders += row.orders;
+          m.revenue += row.revenue;
+          m.transactions += row.transactions;
+        }
+      }
+      return Array.from(merged.values()).sort((a, b) => a.period.localeCompare(b.period));
+    }
+    // Per-brand monthly data
+    return (reportData.brands[brand] && reportData.brands[brand].monthly) || reportData.monthly || [];
+  }
+
   function render() {
     const scope = scopeFor(currentBrand);
-    const title = currentBrand === "ALL" ? "All Brands" : currentBrand[0] + currentBrand.slice(1).toLowerCase();
-    document.getElementById("pageTitle").textContent = `${title} — Payment Methods`;
-    const periodLabel = currentPeriod === "current" ? "Current Quarter" : currentPeriod === "custom" ? "Custom Range" : "Last 3 Closed Months";
+    if (!scope) return;
+
+    const brandLabel =
+      currentBrand === "ALL"
+        ? "All Brands"
+        : currentBrand[0] + currentBrand.slice(1).toLowerCase();
+
+    document.getElementById("pageTitle").textContent = `${brandLabel} — Payment Methods`;
+
+    const periodLabel =
+      currentPeriod === "current"
+        ? "Current Quarter"
+        : currentPeriod === "custom"
+        ? "Custom Range"
+        : "Last 3 Closed Months";
+
     document.getElementById("windowLabel").textContent =
       `${periodLabel} · ${reportData.windowLabel || "Last 3 closed months"} · Orders API + Transactions API`;
 
-    renderMonthly();
     document.getElementById("generatedAtLabel").textContent = new Date(reportData.generatedAt)
       .toISOString()
       .slice(0, 10);
@@ -49,10 +78,10 @@
     renderSummaryTable(scope.paymentMethodSummary);
     renderTop3(scope.topPaymentMethods);
     renderProviders(scope.providers || combinedProviders());
+    renderMonthly(currentBrand);
   }
 
   function combinedProviders() {
-    // "All brands" view merges the per-brand provider tables by summing transactions.
     const merged = new Map();
     for (const brandKey of Object.keys(reportData.brands)) {
       const rows = reportData.brands[brandKey].providers || [];
@@ -67,17 +96,26 @@
     return Array.from(merged.values()).sort((a, b) => b.transactions - a.transactions);
   }
 
-  function renderMonthly() {
+  // FIX: renderMonthly now uses brand-specific monthly data
+  function renderMonthly(brand) {
     const box = document.getElementById("monthlyTable");
-    if (!box || !reportData.monthly) return;
-    const rows = reportData.monthly;
-    box.innerHTML = rows.map(r => `
+    if (!box) return;
+    const rows = monthlyFor(brand);
+    if (!rows || rows.length === 0) {
+      box.innerHTML = `<tr><td colspan="4" style="color:#aaa;text-align:center">No monthly data available</td></tr>`;
+      return;
+    }
+    box.innerHTML = rows
+      .map(
+        (r) => `
       <tr>
         <td>${r.month}</td>
         <td>${fmtInt(r.orders)}</td>
         <td>${fmtMoneyFull(r.revenue)}</td>
         <td>${fmtInt(r.transactions)}</td>
-      </tr>`).join("");
+      </tr>`
+      )
+      .join("");
   }
 
   function renderKpis(exec) {
@@ -159,6 +197,7 @@
   }
 
   function wireControls() {
+    // Brand toggle buttons
     document.getElementById("brandToggle").addEventListener("click", (e) => {
       const btn = e.target.closest(".toggle-btn");
       if (!btn) return;
@@ -169,18 +208,30 @@
       render();
     });
 
+    // Sidebar brand links
     document.querySelectorAll("[data-brand-link]").forEach((link) => {
       link.addEventListener("click", (e) => {
         e.preventDefault();
-        const brand = link.dataset.brandLink;
-        currentBrand = brand;
+        currentBrand = link.dataset.brandLink;
         document
           .querySelectorAll(".toggle-btn")
-          .forEach((b) => b.classList.toggle("toggle-btn--active", b.dataset.brand === brand));
+          .forEach((b) =>
+            b.classList.toggle("toggle-btn--active", b.dataset.brand === currentBrand)
+          );
         render();
       });
     });
 
+    // FIX: Reporting Period dropdown now actually changes currentPeriod and re-renders
+    const periodSelect = document.getElementById("periodSelect");
+    if (periodSelect) {
+      periodSelect.addEventListener("change", () => {
+        currentPeriod = periodSelect.value;
+        render();
+      });
+    }
+
+    // Refresh button
     document.getElementById("refreshBtn").addEventListener("click", async () => {
       reportData = await loadData();
       render();

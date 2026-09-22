@@ -51,6 +51,7 @@ async function run() {
   const allOrderSummaries = [];
   const topByBrand = {};
   const providersByBrand = {};
+  const monthlyByBrand = {};
 
   for (const brand of brands) {
     console.log(`\nFetching ${brand.key} orders + transactions...`);
@@ -74,10 +75,12 @@ async function run() {
     const paymentMethodSummary = computePaymentMethodSummary(transactionRecords);
     const topPaymentMethods = computeTopPaymentMethods(paymentMethodSummary);
     const providerComparison = computeProviderComparison(availableProviders, paymentMethodSummary);
+    const brandMonthly = computeMonthlyClosedMonths(orderSummaries, transactionRecords);
 
     brandData[brand.key] = { orderSummaries, executiveSummary, paymentMethodSummary };
     topByBrand[brand.key] = topPaymentMethods;
     providersByBrand[brand.key] = providerComparison;
+    monthlyByBrand[brand.key] = brandMonthly;
 
     allTransactionRecords.push(...transactionRecords);
     allOrderSummaries.push(...orderSummaries);
@@ -131,6 +134,7 @@ async function run() {
               paymentMethodSummary: data.paymentMethodSummary,
               topPaymentMethods: topByBrand[key],
               providers: providersByBrand[key],
+              monthly: monthlyByBrand[key] || [],
             },
           ])
         ),
