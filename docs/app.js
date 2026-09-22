@@ -1,28 +1,13 @@
 (function () {
   "use strict";
 
-  const DATA_FILES = {
-    closed: "data/report-summary.json",
-    current: "data/report-summary-current.json",
-    custom: "data/report-summary-custom.json"
-  };
-  const FALLBACK_URL = "../sample-data/report-summary.sample.json";
+  const BASE_PATH = "./";
+  const DATA_URL = `${BASE_PATH}data/report-summary.json`;
+  const FALLBACK_URL = `${BASE_PATH}data/report-summary.json`;
 
   let reportData = null;
   let currentBrand = "CORRO"; // CORRO | CAVALI | ALL
   let currentPeriod = "closed"; // Last Closed Quarter default
-  // Reporting period details shown to users
-  function updatePeriodInfo(data) {
-    const el = document.querySelector(".period-info, #periodInfo");
-    if (!el) return;
-
-    const start = data.period_start || data.start_date || "";
-    const end = data.period_end || data.end_date || "";
-
-    el.textContent = `${PERIOD_LABELS[currentPeriod] || "Reporting Period"} · ${start} to ${end}`;
-  }
-
-
 
   const fmtCurrency = (n) =>
     "$" + Number(n || 0).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 1 }) ;
@@ -31,10 +16,10 @@
   const fmtInt = (n) => Number(n || 0).toLocaleString("en-US");
   const fmtPct = (n) => Number(n || 0).toFixed(1) + "%";
 
-  async function loadData(period = "closed") {
+  async function loadData() {
     try {
-      const res = await fetch(DATA_FILES[period] || DATA_FILES.closed, { cache: "no-store" });
-      if (!res.ok) throw new Error("period data not found");
+      const res = await fetch(DATA_URL, { cache: "no-store" });
+      if (!res.ok) throw new Error("primary data not found");
       return await res.json();
     } catch (e) {
       const res = await fetch(FALLBACK_URL, { cache: "no-store" });
@@ -51,9 +36,11 @@
     const scope = scopeFor(currentBrand);
     const title = currentBrand === "ALL" ? "All Brands" : currentBrand[0] + currentBrand.slice(1).toLowerCase();
     document.getElementById("pageTitle").textContent = `${title} — Payment Methods`;
-    const periodLabel = currentPeriod === "current" ? "Current Quarter" : currentPeriod === "custom" ? "Custom Range" : "Last Closed Quarter";
+    const periodLabel = currentPeriod === "current" ? "Current Quarter" : currentPeriod === "custom" ? "Custom Range" : "Last Closed Month";
     document.getElementById("windowLabel").textContent =
-      `${periodLabel} · ${reportData.windowLabel} · Orders API + Transactions API`;
+      `${periodLabel} · ${reportData.windowLabel || "Up to latest closed month"} · Orders API + Transactions API`;
+
+    renderMonthly();
     document.getElementById("generatedAtLabel").textContent = new Date(reportData.generatedAt)
       .toISOString()
       .slice(0, 10);
@@ -78,6 +65,19 @@
       }
     }
     return Array.from(merged.values()).sort((a, b) => b.transactions - a.transactions);
+  }
+
+  function renderMonthly() {
+    const box = document.getElementById("monthlyTable");
+    if (!box || !reportData.monthly) return;
+    const rows = reportData.monthly;
+    box.innerHTML = rows.map(r => `
+      <tr>
+        <td>${r.month}</td>
+        <td>${fmtInt(r.orders)}</td>
+        <td>${fmtMoneyFull(r.revenue)}</td>
+        <td>${fmtInt(r.transactions)}</td>
+      </tr>`).join("");
   }
 
   function renderKpis(exec) {
@@ -181,20 +181,14 @@
       });
     });
 
-    document.getElementById("periodSelect").addEventListener("change", async (e) => {
-      currentPeriod = e.target.value;
-      reportData = await loadData(currentPeriod);
-      render();
-    });
-
     document.getElementById("refreshBtn").addEventListener("click", async () => {
-      reportData = await loadData(currentPeriod);
+      reportData = await loadData();
       render();
     });
   }
 
   (async function init() {
-    reportData = await loadData(currentPeriod);
+    reportData = await loadData();
     wireControls();
     render();
   })();
