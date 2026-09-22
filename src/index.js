@@ -89,7 +89,7 @@ async function run() {
 
   const combinedExecutiveSummary = computeExecutiveSummary(allOrderSummaries, allTransactionRecords);
   const combinedPaymentMethodSummary = computePaymentMethodSummary(allTransactionRecords);
-  const monthly = computeMonthlyClosedMonths(allOrderSummaries);
+  const monthly = computeMonthlyClosedMonths(allOrderSummaries, allTransactionRecords);
 
   console.log("\nGenerating workbook...");
   const workbook = await generateWorkbook({
