@@ -23,7 +23,7 @@ jobs:
 
       - name: Generate report
         env:
-          SHOPIFY_API_VERSION: 2025-10
+          SHOPIFY_API_VERSION: 2025-07
           SHOPIFY_CORRO_STORE: ${{ secrets.SHOPIFY_CORRO_STORE }}
           SHOPIFY_CORRO_TOKEN: ${{ secrets.SHOPIFY_CORRO_TOKEN }}
           SHOPIFY_CAVALI_STORE: ${{ secrets.SHOPIFY_CAVALI_STORE }}
