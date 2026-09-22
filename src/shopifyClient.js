@@ -31,10 +31,15 @@ class ShopifyClient {
       .replace(/^https?:\/\//, "")
       .replace(/\/$/, "")
       .trim();
-    this.cleanStore = cleanStore;
-    this.apiVersions = [apiVersion || "2025-10", "2024-10"];
-    this.baseUrl = `https://${cleanStore}/admin/api/${this.apiVersions[0]}`;
+
+    if (!cleanStore || !accessToken) {
+      throw new Error(`[${brandKey}] Missing Shopify store or access token`);
+    }
+
+    this.baseUrl = `https://${cleanStore}/admin/api/${apiVersion || "2025-10"}`;
+    this.shopUrl = `https://${cleanStore}/admin/api/${apiVersion || "2025-10"}/shop.json`;
     console.log(`[${brandKey}] Shopify endpoint: ${this.baseUrl}`);
+
     this.http = axios.create({
       baseURL: this.baseUrl,
       headers: {
@@ -45,20 +50,22 @@ class ShopifyClient {
     });
   }
 
+  async validateConnection() {
+    try {
+      await this.http.get('/shop.json');
+      return true;
+    } catch (err) {
+      const status = err.response && err.response.status;
+      const body = err.response && err.response.data;
+      throw new Error(`[${this.brandKey}] Shopify connection failed (${status || 'unknown'}). Check STORE domain, token and API permissions. Response: ${JSON.stringify(body || err.message)}`);
+    }
+  }
+
   async _requestWithRetry(config, attempt = 1) {
     try {
       return await this.http.request(config);
     } catch (err) {
       const status = err.response && err.response.status;
-      if (status === 404 && !config.__versionRetried) {
-        for (const version of this.apiVersions.slice(1)) {
-          const retryConfig = { ...config, __versionRetried: true };
-          this.http.defaults.baseURL = `https://${this.cleanStore}/admin/api/${version}`;
-          this.baseUrl = this.http.defaults.baseURL;
-          console.log(`[${this.brandKey}] Retrying Shopify API with version ${version}: ${this.baseUrl}`);
-          return this._requestWithRetry(retryConfig, attempt + 1);
-        }
-      }
       if (status === 429 && attempt <= 5) {
         const retryAfterSec = Number(err.response.headers["retry-after"]) || 2;
         await sleep(retryAfterSec * 1000);

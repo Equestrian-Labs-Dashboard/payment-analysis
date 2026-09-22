@@ -57,6 +57,8 @@ async function run() {
       brandKey: brand.key,
     });
 
+    await client.validateConnection();
+
     const { orderSummaries, transactionRecords } = await buildBrandRecords(
       client,
       brand.key,

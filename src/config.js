@@ -28,23 +28,16 @@ function resolveDateWindow(cliArgs) {
  * Per-brand Shopify store config. Add more brands here if the business expands
  * beyond CORRO / CAVALI — everything downstream iterates over this list.
  */
-function normalizeStore(value) {
-  return String(value || "")
-    .replace(/^https?:\/\//, "")
-    .replace(/\/$/, "")
-    .trim();
-}
-
 function getBrands() {
   const brands = [
     {
       key: "CORRO",
-      storeDomain: normalizeStore(process.env.SHOPIFY_CORRO_STORE),
+      storeDomain: process.env.SHOPIFY_CORRO_STORE,
       accessToken: process.env.SHOPIFY_CORRO_TOKEN,
     },
     {
       key: "CAVALI",
-      storeDomain: normalizeStore(process.env.SHOPIFY_CAVALI_STORE),
+      storeDomain: process.env.SHOPIFY_CAVALI_STORE,
       accessToken: process.env.SHOPIFY_CAVALI_TOKEN,
     },
   ];
