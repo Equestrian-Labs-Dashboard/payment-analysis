@@ -1,76 +1,76 @@
 {
-  "generatedAt": "2026-09-28T16:39:04.591Z",
-  "windowLabel": "2026-06-28 to 2026-09-28",
+  "generatedAt": "2026-10-05T16:57:42.811Z",
+  "windowLabel": "2026-07-05 to 2026-10-05",
   "monthly": [
-    {
-      "month": "June 2026",
-      "period": "2026-06",
-      "orders": 37,
-      "revenue": 4081.81,
-      "transactions": 34
-    },
     {
       "month": "July 2026",
       "period": "2026-07",
-      "orders": 542,
-      "revenue": 71135.26,
-      "transactions": 536
+      "orders": 472,
+      "revenue": 60090.47,
+      "transactions": 467
     },
     {
       "month": "August 2026",
       "period": "2026-08",
       "orders": 242,
-      "revenue": 38480.63,
+      "revenue": 38308.63,
       "transactions": 244
+    },
+    {
+      "month": "September 2026",
+      "period": "2026-09",
+      "orders": 624,
+      "revenue": 84117.92,
+      "transactions": 627
     }
   ],
   "combined": {
     "executiveSummary": {
-      "totalOrders": 1434,
-      "totalRevenue": 195719.05,
-      "totalTransactions": 1431,
-      "averageOrderValue": 136.48
+      "totalOrders": 1378,
+      "totalRevenue": 190197.74,
+      "totalTransactions": 1376,
+      "averageOrderValue": 138.02
     },
     "paymentMethodSummary": [
       {
         "paymentMethod": "Shopify Payments",
-        "transactions": 1187,
-        "transactionPct": 82.9,
-        "revenue": 166887.12,
-        "revenuePct": 86.1,
-        "avgOrderValue": 140.6
+        "transactions": 1135,
+        "transactionPct": 82.5,
+        "revenue": 161399.84,
+        "revenuePct": 85.7,
+        "avgOrderValue": 142.2
       },
       {
         "paymentMethod": "Stripe",
         "transactions": 176,
-        "transactionPct": 12.3,
+        "transactionPct": 12.8,
         "revenue": 25694.93,
-        "revenuePct": 13.3,
+        "revenuePct": 13.6,
         "avgOrderValue": 145.99
       },
       {
         "paymentMethod": "Gift Card",
-        "transactions": 32,
-        "transactionPct": 2.2,
-        "revenue": 1117.09,
+        "transactions": 29,
+        "transactionPct": 2.1,
+        "revenue": 1081.97,
         "revenuePct": 0.6,
-        "avgOrderValue": 34.91
+        "avgOrderValue": 37.31
       },
       {
         "paymentMethod": "Manual Payment",
-        "transactions": 16,
-        "transactionPct": 1.1,
-        "revenue": 280.09,
-        "revenuePct": 0.1,
-        "avgOrderValue": 17.51
+        "transactions": 17,
+        "transactionPct": 1.2,
+        "revenue": 284.89,
+        "revenuePct": 0.2,
+        "avgOrderValue": 16.76
       },
       {
         "paymentMethod": "Tiktok Shop",
-        "transactions": 12,
+        "transactions": 11,
         "transactionPct": 0.8,
-        "revenue": 104.62,
+        "revenue": 133.48,
         "revenuePct": 0.1,
-        "avgOrderValue": 8.72
+        "avgOrderValue": 12.13
       },
       {
         "paymentMethod": "Klarna",
@@ -84,9 +84,9 @@
         "paymentMethod": "Shopify Store Credit",
         "transactions": 1,
         "transactionPct": 0.1,
-        "revenue": -216.45,
+        "revenue": -232.9,
         "revenuePct": -0.1,
-        "avgOrderValue": -216.45
+        "avgOrderValue": -232.9
       },
       {
         "paymentMethod": "Shop Cash",
@@ -100,61 +100,61 @@
     "topPaymentMethods": [
       {
         "paymentMethod": "Shopify Payments",
-        "transactionPct": 82.9,
-        "transactions": 1187,
-        "revenue": 166887.12
+        "transactionPct": 82.5,
+        "transactions": 1135,
+        "revenue": 161399.84
       },
       {
         "paymentMethod": "Stripe",
-        "transactionPct": 12.3,
+        "transactionPct": 12.8,
         "transactions": 176,
         "revenue": 25694.93
       },
       {
         "paymentMethod": "Gift Card",
-        "transactionPct": 2.2,
-        "transactions": 32,
-        "revenue": 1117.09
+        "transactionPct": 2.1,
+        "transactions": 29,
+        "revenue": 1081.97
       }
     ]
   },
   "brands": {
     "CORRO": {
       "executiveSummary": {
-        "totalOrders": 1127,
-        "totalRevenue": 154699.55,
-        "totalTransactions": 1145,
-        "averageOrderValue": 137.27
+        "totalOrders": 1066,
+        "totalRevenue": 148592.36,
+        "totalTransactions": 1085,
+        "averageOrderValue": 139.39
       },
       "paymentMethodSummary": [
         {
           "paymentMethod": "Shopify Payments",
-          "transactions": 1088,
-          "transactionPct": 95,
-          "revenue": 151635.05,
+          "transactions": 1032,
+          "transactionPct": 95.1,
+          "revenue": 145566.69,
           "revenuePct": 99.2,
-          "avgOrderValue": 139.37
+          "avgOrderValue": 141.05
         },
         {
           "paymentMethod": "Gift Card",
-          "transactions": 32,
-          "transactionPct": 2.8,
-          "revenue": 1117.09,
+          "transactions": 29,
+          "transactionPct": 2.7,
+          "revenue": 1081.97,
           "revenuePct": 0.7,
-          "avgOrderValue": 34.91
+          "avgOrderValue": 37.31
         },
         {
           "paymentMethod": "Tiktok Shop",
-          "transactions": 12,
+          "transactions": 11,
           "transactionPct": 1,
-          "revenue": 104.62,
+          "revenue": 133.48,
           "revenuePct": 0.1,
-          "avgOrderValue": 8.72
+          "avgOrderValue": 12.13
         },
         {
           "paymentMethod": "Klarna",
           "transactions": 6,
-          "transactionPct": 0.5,
+          "transactionPct": 0.6,
           "revenue": 0,
           "revenuePct": 0,
           "avgOrderValue": 0
@@ -162,7 +162,7 @@
         {
           "paymentMethod": "Manual Payment",
           "transactions": 5,
-          "transactionPct": 0.4,
+          "transactionPct": 0.5,
           "revenue": 210.59,
           "revenuePct": 0.1,
           "avgOrderValue": 42.12
@@ -171,9 +171,9 @@
           "paymentMethod": "Shopify Store Credit",
           "transactions": 1,
           "transactionPct": 0.1,
-          "revenue": -216.45,
-          "revenuePct": -0.1,
-          "avgOrderValue": -216.45
+          "revenue": -232.9,
+          "revenuePct": -0.2,
+          "avgOrderValue": -232.9
         },
         {
           "paymentMethod": "Shop Cash",
@@ -187,21 +187,21 @@
       "topPaymentMethods": [
         {
           "paymentMethod": "Shopify Payments",
-          "transactionPct": 95,
-          "transactions": 1088,
-          "revenue": 151635.05
+          "transactionPct": 95.1,
+          "transactions": 1032,
+          "revenue": 145566.69
         },
         {
           "paymentMethod": "Gift Card",
-          "transactionPct": 2.8,
-          "transactions": 32,
-          "revenue": 1117.09
+          "transactionPct": 2.7,
+          "transactions": 29,
+          "revenue": 1081.97
         },
         {
           "paymentMethod": "Tiktok Shop",
           "transactionPct": 1,
-          "transactions": 12,
-          "revenue": 104.62
+          "transactions": 11,
+          "revenue": 133.48
         }
       ],
       "providers": [
@@ -209,19 +209,19 @@
           "provider": "Shopify Payments",
           "availableInShopify": "Yes",
           "used": "Yes",
-          "transactions": 1088
+          "transactions": 1032
         },
         {
           "provider": "Gift Card",
           "availableInShopify": "Not configured",
           "used": "Yes",
-          "transactions": 32
+          "transactions": 29
         },
         {
           "provider": "Tiktok Shop",
           "availableInShopify": "Not configured",
           "used": "Yes",
-          "transactions": 12
+          "transactions": 11
         },
         {
           "provider": "Klarna",
@@ -268,79 +268,79 @@
       ],
       "monthly": [
         {
-          "month": "June 2026",
-          "period": "2026-06",
-          "orders": 37,
-          "revenue": 4081.81,
-          "transactions": 34
-        },
-        {
           "month": "July 2026",
           "period": "2026-07",
-          "orders": 531,
-          "revenue": 69966.94,
-          "transactions": 533
+          "orders": 464,
+          "revenue": 59781.83,
+          "transactions": 465
         },
         {
           "month": "August 2026",
           "period": "2026-08",
           "orders": 229,
-          "revenue": 37622.74,
+          "revenue": 37450.74,
           "transactions": 234
+        },
+        {
+          "month": "September 2026",
+          "period": "2026-09",
+          "orders": 341,
+          "revenue": 45124.63,
+          "transactions": 354
         }
       ]
     },
     "CAVALI": {
       "executiveSummary": {
-        "totalOrders": 307,
-        "totalRevenue": 41019.5,
-        "totalTransactions": 286,
-        "averageOrderValue": 133.61
+        "totalOrders": 312,
+        "totalRevenue": 41605.38,
+        "totalTransactions": 291,
+        "averageOrderValue": 133.35
       },
       "paymentMethodSummary": [
         {
           "paymentMethod": "Stripe",
           "transactions": 176,
-          "transactionPct": 61.5,
+          "transactionPct": 60.5,
           "revenue": 25694.93,
-          "revenuePct": 62.6,
+          "revenuePct": 61.8,
           "avgOrderValue": 145.99
         },
         {
           "paymentMethod": "Shopify Payments",
-          "transactions": 99,
-          "transactionPct": 34.6,
-          "revenue": 15252.07,
-          "revenuePct": 37.2,
-          "avgOrderValue": 154.06
+          "transactions": 103,
+          "transactionPct": 35.4,
+          "revenue": 15833.15,
+          "revenuePct": 38.1,
+          "avgOrderValue": 153.72
         },
         {
           "paymentMethod": "Manual Payment",
-          "transactions": 11,
-          "transactionPct": 3.8,
-          "revenue": 69.5,
+          "transactions": 12,
+          "transactionPct": 4.1,
+          "revenue": 74.3,
           "revenuePct": 0.2,
-          "avgOrderValue": 6.32
+          "avgOrderValue": 6.19
         }
       ],
       "topPaymentMethods": [
         {
           "paymentMethod": "Stripe",
-          "transactionPct": 61.5,
+          "transactionPct": 60.5,
           "transactions": 176,
           "revenue": 25694.93
         },
         {
           "paymentMethod": "Shopify Payments",
-          "transactionPct": 34.6,
-          "transactions": 99,
-          "revenue": 15252.07
+          "transactionPct": 35.4,
+          "transactions": 103,
+          "revenue": 15833.15
         },
         {
           "paymentMethod": "Manual Payment",
-          "transactionPct": 3.8,
-          "transactions": 11,
-          "revenue": 69.5
+          "transactionPct": 4.1,
+          "transactions": 12,
+          "revenue": 74.3
         }
       ],
       "providers": [
@@ -354,13 +354,13 @@
           "provider": "Shopify Payments",
           "availableInShopify": "Yes",
           "used": "Yes",
-          "transactions": 99
+          "transactions": 103
         },
         {
           "provider": "Manual Payment",
           "availableInShopify": "Yes",
           "used": "Yes",
-          "transactions": 11
+          "transactions": 12
         },
         {
           "provider": "PayPal",
@@ -389,18 +389,11 @@
       ],
       "monthly": [
         {
-          "month": "June 2026",
-          "period": "2026-06",
-          "orders": 0,
-          "revenue": 0,
-          "transactions": 0
-        },
-        {
           "month": "July 2026",
           "period": "2026-07",
-          "orders": 11,
-          "revenue": 1168.32,
-          "transactions": 3
+          "orders": 8,
+          "revenue": 308.64,
+          "transactions": 2
         },
         {
           "month": "August 2026",
@@ -408,6 +401,13 @@
           "orders": 13,
           "revenue": 857.89,
           "transactions": 10
+        },
+        {
+          "month": "September 2026",
+          "period": "2026-09",
+          "orders": 283,
+          "revenue": 38993.29,
+          "transactions": 273
         }
       ]
     }
